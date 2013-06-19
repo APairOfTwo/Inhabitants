@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="WINDOWS-1252" standalone="no"?>
+<jardesc>
+    <jar path="C:/Users/PS_Dennis/Desktop/ImageDownloaderServer/server.jar"/>
+    <options buildIfNeeded="true" compress="true" descriptionLocation="/downloader_server/serverExporter.jardesc" exportErrors="true" exportWarnings="true" includeDirectoryEntries="false" overwrite="false" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
+    <storedRefactorings deprecationInfo="true" structuralOnly="false"/>
+    <selectedProjects/>
+    <manifest generateManifest="true" manifestLocation="" manifestVersion="1.0" reuseManifest="false" saveManifest="false" usesManifest="true">
+        <sealing sealJar="false">
+            <packagesToSeal/>
+            <packagesToUnSeal/>
+        </sealing>
+    </manifest>
+    <selectedElements exportClassFiles="true" exportJavaFiles="false" exportOutputFolder="false">
+        <file path="/downloader_server/.classpath"/>
+        <javaElement handleIdentifier="=downloader_server/src&lt;palmsoft.downloader.server.controler{DadosImageServer.java"/>
+        <file path="/downloader_server/serverExporter.jardesc"/>
+        <javaElement handleIdentifier="=downloader_server/src&lt;palmsoft.downloader.server"/>
+        <javaElement handleIdentifier="=downloader_server/src&lt;palmsoft.downloader.server.controler{ServerControler.java"/>
+        <javaElement handleIdentifier="=downloader_server/src&lt;palmsoft.downloader.server.controler{ImageSender.java"/>
+        <javaElement handleIdentifier="=downloader_server/src&lt;palmsoft.downloader.server.controler{Link.java"/>
+        <javaElement handleIdentifier="=downloader_server/src&lt;palmsoft.downloader.server.protocol"/>
+        <file path="/downloader_server/.project"/>
+        <javaElement handleIdentifier="=downloader_server/src&lt;palmsoft.downloader.server.controler{ImageDownloader.java"/>
+    </selectedElements>
+</jardesc>
