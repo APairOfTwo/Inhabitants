@@ -21,16 +21,11 @@ import java.util.zip.ZipOutputStream;
 public class DadosServer {
 	public static ServerControler servercontroler = null;
 	public static FileSender filesender = null;
-	
 	public static Hashtable<String, Jogador> hashJogadores = new Hashtable<String, Jogador>();
-	
 	public static LinkedList<Jogador> listaDeJogadoresLogados = new LinkedList<Jogador>();
-	
 	public static String pathdados = "."+File.separator+"dados"+File.separator;
-
-	
 	public static Random rnd = new Random();
-	//TODO
+	
 	public static void carregaDadosDisco(){
 		File fileini = new File(pathdados+"dados.zip");
 
@@ -54,10 +49,8 @@ public class DadosServer {
 				}
 				zin.close();
 			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}	
 		}else{

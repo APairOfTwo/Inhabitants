@@ -18,14 +18,11 @@ import PALMSOFT.genericServer.server.protocol.GameServerCodecFactory;
 public class MainServer {
 	private static final int PORT = 5321;
 	
-	public static void main(String[] args) throws IOException
-	{
-		//TODO
+	public static void main(String[] args) throws IOException {
 		DadosServer.carregaDadosDisco();
 		
 		DadosServer.servercontroler = new ServerControler();
 		DadosServer.servercontroler.inicia();
-		
 		
 		IoAcceptor acceptor = new NioSocketAcceptor();
 		LoggingFilter loggingFilter = new LoggingFilter();

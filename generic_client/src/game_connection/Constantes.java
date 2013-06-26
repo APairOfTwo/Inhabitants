@@ -25,28 +25,28 @@ import main.Personagem;
 
 
 public class Constantes {
-	
+
 	public static FileWriter outw;
-	
+
 	public static SocketConectionManager connectionManager = null;
-	
+
 	public static String pathFile = "";//"."+File.separator+"img"+File.separator;
 
 	public static boolean logado = false;
-	
+
 	public static Personagem meuPersonagem = null;
-	
+
 	public static Random rand = new Random();
-	
+
 	static{
 		pathFile = System.getProperty("java.io.tmpdir")+File.separator+"serverTest"+File.separator+"img"+File.separator;
-		
+
 		File f = new File(pathFile);
 		if(!f.exists()){
 			f.mkdirs();
 		}
 	}
-	
+
 	public static void loadStatus(){
 		File f = new File(pathFile+"dadosys.conf");
 		if(f.exists()){
@@ -62,19 +62,16 @@ public class Constantes {
 				}
 				bfr.close();
 				fr.close();
-				
+
 			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
+
 			try {
 				outw = new FileWriter(f,true);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}else{
@@ -83,47 +80,42 @@ public class Constantes {
 				//zipout.putNextEntry(new ZipEntry("dados.csv"));
 				outw = new FileWriter(f);//new OutputStreamWriter(new FileOutputStream(f));
 			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 	}
-	
+
 	public static void addToLog(String key,String str){
 		try {
 			outw.write(str+";\n");
 			outw.flush();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static BufferedImage loadImageFromResorces(String imagename){
 		BufferedImage img = null;
-		
+
 		try {
 			img = ImageIO.read(MainCanvas.instance.getClass().getResourceAsStream("\\"+imagename));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return img;
 	}
-	
+
 	public static BufferedImage loadImageFromFile(String filename){
 		BufferedImage img = null;
-		
+
 		try {
 			img = ImageIO.read(new File(filename));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return img;
 	}
-	
+
 }

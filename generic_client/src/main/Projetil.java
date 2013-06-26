@@ -21,7 +21,7 @@ public class Projetil extends Sprite {
 	public float objetivoX = 0;
 	public float objetivoY = 0;
 	public boolean vivo = true;
-	
+
 	public Projetil(float X, float Y, float velx, float vely, Object pai) {
 		super();
 		this.X = X;
@@ -29,14 +29,13 @@ public class Projetil extends Sprite {
 		this.velx = velx;
 		this.vely = vely;
 		this.pai = pai;
-
 	}
 
 	@Override
 	public void SimulaSe(long diftime) {
 		somatimeanim += diftime;
 		frame = (somatimeanim / animspd) % 3;
-		
+
 		X += velx * diftime / 1000.0f;
 		Y += vely * diftime / 1000.0f;
 		if (X < 0) {
@@ -53,8 +52,6 @@ public class Projetil extends Sprite {
 				float vel = (float) (150 + 100 * Math.random());
 				float vx = (float) (Math.cos(ang2) * vel);
 				float vy = (float) (Math.sin(ang2) * vel);
-
-
 			}
 		}
 
@@ -62,13 +59,12 @@ public class Projetil extends Sprite {
 			for (int i = 0; i < MainCanvas.instance.listaDePersonagens.size(); i++) {
 				Personagem p = MainCanvas.instance.listaDePersonagens.get(i);
 				if (p != pai && p.isAlive) {
-						if (colisaoCircular(p)) {
-							vivo = false;
-							p.levaDano(dano);
-							System.out.println("levou dano  "+p.life);
-							break;
-						}
-
+					if (colisaoCircular(p)) {
+						vivo = false;
+						p.levaDano(dano);
+						System.out.println("levou dano  "+p.life);
+						break;
+					}
 				}
 			}
 		}
@@ -77,7 +73,7 @@ public class Projetil extends Sprite {
 	@Override
 	public void DesenhaSe(Graphics2D dbg, int mapx, int mapy) {
 		if(vivo) {
-			dbg.setColor(Color.black);
+			dbg.setColor(Color.YELLOW);
 			dbg.fillOval((int) (X - 2), (int) (Y - 2), 4, 4);
 		}
 	}

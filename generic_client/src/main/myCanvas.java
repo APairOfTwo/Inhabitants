@@ -6,10 +6,8 @@ import java.awt.event.MouseEvent;
 
 public abstract class myCanvas {
 
-	
 	public abstract void SimulaSe(long diftime);
 	public abstract void DesenhaSe(Graphics2D dbg);
-	
 	
 	public abstract void keyPressed(KeyEvent e);
 	public abstract void keyReleased(KeyEvent e);

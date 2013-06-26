@@ -52,50 +52,50 @@ import main.Projetil;
 public class SocketConectionManager implements Runnable{
 	private static final int PORT = 5321;
 	private static final String IP = "127.0.0.1";
-	
+
 	DataOutputStream sockdout = null;
 	DataInputStream sockdin = null;
-	
+
 	public Socket socket = null;
 	boolean running = false;
-	
+
 	Thread thisthread = null;
-	
+
 	public static int lastpingreceived = -1;
-	
+
 	public HashMap<Integer, ReceiveData> dadosPendetes = new HashMap<Integer, ReceiveData>();
-	
+
 	public SocketConectionManager() {
 	}
-	
+
 	public void connect(){
 		try {
 			socket = new Socket(IP, PORT);
 			System.out.println("Conecto...");
-			
+
 			InputStream in = socket.getInputStream();
 			OutputStream out = socket.getOutputStream();
 			sockdout = new DataOutputStream(out);
 			sockdin = new DataInputStream(in);
-			
+
 			running = true;
-			
+
 			thisthread = new Thread(this);
 			thisthread.start();
-			
-//			ByteArrayOutputStream bout = new ByteArrayOutputStream();
-//			DataOutputStream dbout = new DataOutputStream(bout);
-//			dbout.writeUTF("FUCK THIS SHIT fdfsdfsdf");
-//			NetMessage msg = new NetMessage(0, bout.toByteArray());
-//			sendNetMessage(dout, msg);
-			
+
+			//			ByteArrayOutputStream bout = new ByteArrayOutputStream();
+			//			DataOutputStream dbout = new DataOutputStream(bout);
+			//			dbout.writeUTF("FUCK THIS SHIT fdfsdfsdf");
+			//			NetMessage msg = new NetMessage(0, bout.toByteArray());
+			//			sendNetMessage(dout, msg);
+
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void close(){
 		try {
 			socket.close();
@@ -104,11 +104,10 @@ public class SocketConectionManager implements Runnable{
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void sendNetMessage(NetMessage msg){
 		if(socket.isConnected()){
 			try {
-				//System.out.println("Enviou "+msg.getSize()+" "+msg.getId()+" "+msg.getData().length);
 				sockdout.writeInt(msg.getSize());
 				sockdout.writeShort(msg.getId());
 				sockdout.write(msg.getData());
@@ -120,16 +119,11 @@ public class SocketConectionManager implements Runnable{
 
 	@Override
 	public void run() {
-		while(running){
+		while(running) {
 			try {
-				if(sockdin.available()>0){
-					//System.out.println("Recebeu Dados "+sockdin.available());
-					
+				if(sockdin.available()>0) {
 					int size = sockdin.readInt();
 					short id = sockdin.readShort();
-					
-					//System.out.println("GACKGAGE SIZE "+size+" "+id);
-					
 					while(sockdin.available()<size){
 						try {
 							Thread.sleep(1);
@@ -137,30 +131,26 @@ public class SocketConectionManager implements Runnable{
 							e.printStackTrace();
 						}
 					}
-					
+
 					byte[] osbytes = new byte[size];
 					sockdin.read(osbytes);
-					
+
 					NetMessage msg = new NetMessage(id, osbytes);
-					//System.out.println("RECIVED MESSAGE "+size+" "+id);
 
 					trataMsgRecebida(msg);
-					
-				}else{
+				} else {
 					try {
-						Thread.sleep(100);
+						Thread.sleep(1);
 					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
-				
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
 	}
-	
+
 	public void trataMsgRecebida(NetMessage msg){
 		switch (msg.getId()) {
 		case 0:
@@ -176,7 +166,7 @@ public class SocketConectionManager implements Runnable{
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		break;
+			break;
 		case 1:
 			NetMessage msg2 = new NetMessage(2, msg.getData());
 			sendNetMessage(msg2);
@@ -187,11 +177,9 @@ public class SocketConectionManager implements Runnable{
 			try {
 				long pingtime = dbin.readLong();
 				lastpingreceived = (int)(System.currentTimeMillis()-pingtime);
-//				System.out.println("PING "+lastpingreceived);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			
 			break;
 		case 4:
 			bin = new ByteArrayInputStream(msg.getData());
@@ -206,7 +194,7 @@ public class SocketConectionManager implements Runnable{
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			
+
 			break;
 		case 7:
 			if(msg.getData()!=null){
@@ -223,18 +211,17 @@ public class SocketConectionManager implements Runnable{
 					}					
 
 					int size = dbin.readInt();
-					
+
 					ReceiveData rdata = new ReceiveData();
 					rdata.nome = imgname;
 					rdata.codigo = codigo;
 					rdata.size = size;
-					
+
 					dadosPendetes.put(codigo, rdata);
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 			}
-			
 			break;
 		case 8:
 			if(msg.getData()!=null){
@@ -245,32 +232,26 @@ public class SocketConectionManager implements Runnable{
 					if(dadosPendetes.containsKey(codigo)){
 						ReceiveData rdata = dadosPendetes.get(codigo);
 						byte data[] = new byte[dbin.available()];
-//						System.out.println("Size "+rdata.size+" Atual "+rdata.bout.size()+" Chegou "+data.length);
 						dbin.read(data);
 						rdata.bout.write(data);
-						
+
 						if(rdata.bout.size()>=rdata.size){
 							File f = null;
 
 							f = new File(Constantes.pathFile+rdata.nome);
 							System.out.println("RECEBE ARQUIVO -> "+Constantes.pathFile+rdata.nome);
 
-							
 							FileOutputStream fout = new FileOutputStream(f);
 							fout.write(rdata.bout.toByteArray());
 							fout.close();
-							
+
 							System.out.println("SERVER FILE "+rdata.nome+" size "+rdata.size);
-							
+
 							dadosPendetes.remove(codigo);
-							
+
 							MainCanvas.instance.ultimaImagemBaixada = Constantes.loadImageFromFile(Constantes.pathFile+rdata.nome);
 						}
-					}else{
-						
 					}
-
-					
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -279,24 +260,23 @@ public class SocketConectionManager implements Runnable{
 			if(msg.getData()!=null){
 				bin = new ByteArrayInputStream(msg.getData());
 				dbin = new DataInputStream(bin);
-				
+
 				try {
 					int id = dbin.readInt();
-				    float perx = dbin.readFloat();
-				    float pery = dbin.readFloat();
-				    float objx = dbin.readFloat();
-				    float objy = dbin.readFloat();
-				    
-				    Constantes.meuPersonagem = new Personagem(id, perx, pery);
-				    Constantes.meuPersonagem.objetivoX = objx;
-				    Constantes.meuPersonagem.objetivoY = objy;
-				    Constantes.meuPersonagem.cor = Color.blue;
-				    
-				    Constantes.meuPersonagem.deslocaSe(lastpingreceived/2);
-				    
-				    MainCanvas.instance.listaDePersonagens.add(Constantes.meuPersonagem);
+					float perx = dbin.readFloat();
+					float pery = dbin.readFloat();
+					float objx = dbin.readFloat();
+					float objy = dbin.readFloat();
+
+					Constantes.meuPersonagem = new Personagem(id, perx, pery);
+					Constantes.meuPersonagem.objetivoX = objx;
+					Constantes.meuPersonagem.objetivoY = objy;
+					Constantes.meuPersonagem.cor = Color.blue;
+
+					Constantes.meuPersonagem.deslocaSe(lastpingreceived/2);
+
+					MainCanvas.instance.listaDePersonagens.add(Constantes.meuPersonagem);
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -305,24 +285,23 @@ public class SocketConectionManager implements Runnable{
 			if(msg.getData()!=null){
 				bin = new ByteArrayInputStream(msg.getData());
 				dbin = new DataInputStream(bin);
-				
+
 				try {
 					int id = dbin.readInt();
-				    float perx = dbin.readFloat();
-				    float pery = dbin.readFloat();
-				    float objx = dbin.readFloat();
-				    float objy = dbin.readFloat();
-				 
-				    Personagem pers = new Personagem(id, perx, pery);
-				    pers.cor = Color.red;
-				    pers.objetivoX = objx;
-				    pers.objetivoY = objy;
-				    
-				    pers.deslocaSe(lastpingreceived/2);
-				    
-				    MainCanvas.instance.listaDePersonagens.add(pers);
+					float perx = dbin.readFloat();
+					float pery = dbin.readFloat();
+					float objx = dbin.readFloat();
+					float objy = dbin.readFloat();
+
+					Personagem pers = new Personagem(id, perx, pery);
+					pers.cor = Color.red;
+					pers.objetivoX = objx;
+					pers.objetivoY = objy;
+
+					pers.deslocaSe(lastpingreceived/2);
+
+					MainCanvas.instance.listaDePersonagens.add(pers);
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -331,10 +310,10 @@ public class SocketConectionManager implements Runnable{
 			if(msg.getData()!=null){
 				bin = new ByteArrayInputStream(msg.getData());
 				dbin = new DataInputStream(bin);
-				
+
 				try {
 					int id = dbin.readInt();
-				 
+
 					for(int i = 0; i < MainCanvas.instance.listaDePersonagens.size();i++){
 						Personagem pers = MainCanvas.instance.listaDePersonagens.get(i);
 						if(pers.ID == id){
@@ -343,7 +322,6 @@ public class SocketConectionManager implements Runnable{
 						}
 					}
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -352,14 +330,14 @@ public class SocketConectionManager implements Runnable{
 			if(msg.getData()!=null){
 				bin = new ByteArrayInputStream(msg.getData());
 				dbin = new DataInputStream(bin);
-				
+
 				try {
 					int id = dbin.readInt();
 					float x = dbin.readFloat();
 					float y = dbin.readFloat();
 					float objx = dbin.readFloat();
 					float objy = dbin.readFloat();
-					
+
 					for(int i = 0; i < MainCanvas.instance.listaDePersonagens.size();i++){
 						Personagem pers = MainCanvas.instance.listaDePersonagens.get(i);
 						if(pers.ID == id){
@@ -370,12 +348,7 @@ public class SocketConectionManager implements Runnable{
 							break;
 						}
 					}
-					
-					// TODO GROSSERIA
-
-					
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -384,25 +357,25 @@ public class SocketConectionManager implements Runnable{
 			if(msg.getData()!=null){
 				bin = new ByteArrayInputStream(msg.getData());
 				dbin = new DataInputStream(bin);
-				
+
 				try {
 					int id = dbin.readInt();
 					float x = dbin.readFloat();
 					float y = dbin.readFloat();
 					float objx = dbin.readFloat();
 					float objy = dbin.readFloat();
-					
+
 					float px = x + 5;
 					float py = y + 5;
 
 					float dx =objx- px;
 					float dy = objy - py;
-					
+
 					float vproj = 400;
 					double ang = Math.atan2(dy, dx);
 					float vx = (float) (vproj * Math.cos(ang));
 					float vy = (float) (vproj * Math.sin(ang));
-					
+
 					for(int i = 0; i < MainCanvas.instance.listaDePersonagens.size();i++) {
 						Personagem pers = MainCanvas.instance.listaDePersonagens.get(i);
 						if(pers.ID == id) {
@@ -410,14 +383,14 @@ public class SocketConectionManager implements Runnable{
 							MainCanvas.instance.listaDeProjetil.add(pro);
 						}
 					}
-					
-//					for(int i = 0; i < MainCanvas.instance.listaDePersonagens.size();i++){
-//						Personagem pers = MainCanvas.instance.listaDePersonagens.get(i);
-//						if(pers.ID != id){
-//							MainCanvas.instance.listaDePersonagens.get(i).isAlive = false;
-//							//break;
-//						}
-//					}
+
+					//for(int i = 0; i < MainCanvas.instance.listaDePersonagens.size();i++){
+					//	Personagem pers = MainCanvas.instance.listaDePersonagens.get(i);
+					//	if(pers.ID != id){
+					//		MainCanvas.instance.listaDePersonagens.get(i).isAlive = false;
+					//		//break;
+					//	}
+					//}
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -427,14 +400,13 @@ public class SocketConectionManager implements Runnable{
 			if(msg.getData()!=null){
 				bin = new ByteArrayInputStream(msg.getData());
 				dbin = new DataInputStream(bin);
-				
+
 				try {
 					int id = dbin.readInt();
 					int life = dbin.readInt();
 					float x = dbin.readFloat();
 					float y = dbin.readFloat();
-					
-					
+
 					for(int i = 0; i < MainCanvas.instance.listaDePersonagens.size();i++){
 						Personagem pers = MainCanvas.instance.listaDePersonagens.get(i);
 						if(pers.ID == id){
@@ -454,7 +426,7 @@ public class SocketConectionManager implements Runnable{
 			break;
 		}
 	}
-	
+
 	public void sendMsgPing(){
 		ByteArrayOutputStream bout = new ByteArrayOutputStream(4);
 		DataOutputStream dout = new DataOutputStream(bout);
@@ -463,12 +435,11 @@ public class SocketConectionManager implements Runnable{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 		NetMessage msg = new NetMessage(1, bout.toByteArray());
-		
 		sendNetMessage(msg);
 	}
-	
+
 	public void sendMsgLogin(String usuario, String senha){
 		ByteArrayOutputStream bout = new ByteArrayOutputStream();
 		DataOutputStream dout = new DataOutputStream(bout);
@@ -481,7 +452,7 @@ public class SocketConectionManager implements Runnable{
 		NetMessage msg = new NetMessage(3, bout.toByteArray());
 		sendNetMessage(msg);
 	}
-	
+
 	/*
 	 * @param imgname nome da imagen 
 	 * @param tipo tipo do comando 0 - pede preview 1 - pede imagem grande
@@ -495,12 +466,11 @@ public class SocketConectionManager implements Runnable{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 		NetMessage msg = new NetMessage(6, bout.toByteArray());
-		
 		sendNetMessage(msg);
 	}
-	
+
 	public void sendMsgMovimentaPersonagem(float x,float y,float objX,float objY){
 		ByteArrayOutputStream bout = new ByteArrayOutputStream();
 		DataOutputStream dout = new DataOutputStream(bout);
@@ -515,7 +485,7 @@ public class SocketConectionManager implements Runnable{
 		NetMessage msg = new NetMessage(13, bout.toByteArray());
 		sendNetMessage(msg);
 	}
-	
+
 	public void sendMsgtiro(float x, float y, float objX, float objY) {
 		ByteArrayOutputStream bout = new ByteArrayOutputStream();
 		DataOutputStream dout = new DataOutputStream(bout);
@@ -531,11 +501,11 @@ public class SocketConectionManager implements Runnable{
 		sendNetMessage(msg);
 	}
 
-	
+
 	public void sendMsgRespawn(int life, float rndX, float rndY){
 		ByteArrayOutputStream bout = new ByteArrayOutputStream();
 		DataOutputStream dout = new DataOutputStream(bout);
-		
+
 		try {
 			dout.writeInt(life);
 			dout.writeFloat(rndX);
@@ -543,7 +513,7 @@ public class SocketConectionManager implements Runnable{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 		NetMessage msg = new NetMessage(17, bout.toByteArray());
 		sendNetMessage(msg);
 	}

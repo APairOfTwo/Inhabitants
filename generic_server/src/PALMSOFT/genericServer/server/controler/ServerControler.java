@@ -1,6 +1,5 @@
 package PALMSOFT.genericServer.server.controler;
 
-import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -8,16 +7,10 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.Set;
 import java.util.zip.ZipEntry;
-import java.util.zip.ZipException;
-import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
 
 public class ServerControler implements Runnable{
@@ -32,8 +25,6 @@ public class ServerControler implements Runnable{
     DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy-hh_mm_ss");
     
 	public ServerControler() {
-		// TODO Auto-generated constructor stub
-		
 //		listaDeRequisicoesDeJogadores = new LinkedList<Jogador>();
 	}
     
@@ -54,7 +45,6 @@ public class ServerControler implements Runnable{
     
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
 		Jogador requisicoes = null;
 		long tempoatual = System.currentTimeMillis();
 		int diftime = 0;
@@ -100,13 +90,10 @@ public class ServerControler implements Runnable{
 					}
 					outw.close();
 				} catch (FileNotFoundException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				
 			}
 //			if((tempoatual-temporanking)>60000){
 //				temporanking = tempoatual;
@@ -118,31 +105,9 @@ public class ServerControler implements Runnable{
 			try {
 				Thread.sleep(10);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
 		}
 	}
-	
-//	public void geratoplist(){
-//		topList.clear();
-//		
-//		Set<String> set = DadosServer.hashJogadores.keySet();
-//		for (Iterator iterator = set.iterator(); iterator.hasNext();) {
-//			String key = (String) iterator.next();
-//			Jogador jog = DadosServer.hashJogadores.get(key);
-//			if(jog.pontos>0){
-//				topList.add(jog);
-//			}
-//		}
-//        Collections.sort (topList, new Comparator() {  
-//            public int compare(Object o1, Object o2) {  
-//                Jogador p1 = (Jogador) o1;  
-//                Jogador p2 = (Jogador) o2;  
-//                return p1.pontos > p2.pontos ? -1 : (p1.pontos < p2.pontos ? +1 : 0);  
-//            }  
-//        }); 
-//	}
 
 }
