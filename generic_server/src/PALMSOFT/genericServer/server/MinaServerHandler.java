@@ -33,7 +33,6 @@ public class MinaServerHandler extends IoHandlerAdapter {
 		session.getConfig().setIdleTime(IdleStatus.BOTH_IDLE, 260);
 		//session.setAttribute("Values: ");
 		session.write(createTextMessage(0,"CONECTADO AO SERVER..."));
-		session.write(createTextMessage(0,"Bem vindo ao servidor da turminha de jogos "));
 	}
 
 	@Override
@@ -55,10 +54,8 @@ public class MinaServerHandler extends IoHandlerAdapter {
 
 	@Override
 	public void exceptionCaught(IoSession session, Throwable cause)
-
 	{
 		session.close();
-
 	}
 
 	@Override
@@ -145,12 +142,49 @@ public class MinaServerHandler extends IoHandlerAdapter {
 						sendLoginStatusMessage(session,0);
 					}
 				} else {
-					Jogador jog = new Jogador(usuario,senha);
-					DadosServer.hashJogadores.put(usuario, jog);
+					session.write(createTextMessage(0,"Usuário "+usuario+" não encontrado, cadastre-se por favor!"));
+					sendLoginStatusMessage(session,0);
+					
+					//TODO Cadastra novo jogador
+//					Jogador jog = new Jogador(usuario,senha);
+//					DadosServer.hashJogadores.put(usuario, jog);
+//					
+//					session.setAttribute("jogador", jog);
+//					jog.session = session;
+//					session.write(createTextMessage(0,"Login Aceito "+usuario+" "+senha));
+//					sendLoginStatusMessage(session,1);
+//					sendPersonagemMessage(session,10,jog.personagem);
+//					for (Iterator iterator = DadosServer.listaDeJogadoresLogados.iterator(); iterator.hasNext();) {
+//						Jogador outrojogador = (Jogador) iterator.next();
+//						sendPersonagemMessage(outrojogador.session,11,jog.personagem);
+//						sendPersonagemMessage(session,11,outrojogador.personagem);
+//					}
+//					DadosServer.listaDeJogadoresLogados.add(jog);
+				}
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+			break;
+		case 4:
+			bin = new ByteArrayInputStream(msg.getData());
+			dbin = new DataInputStream(bin);
 
+			try {
+				String usuario = dbin.readUTF();
+				String senha = dbin.readUTF();
+				int raca = dbin.readInt();
+
+				if(DadosServer.hashJogadores.containsKey(usuario)){
+					session.write(createTextMessage(0,"Usuário "+usuario+" já cadastrado, escolha outro nome."));
+					sendLoginStatusMessage(session,0);
+				} else {
+					//Cadastra novo jogador
+					Jogador jog = new Jogador(usuario, senha, raca);
+					DadosServer.hashJogadores.put(usuario, jog);
+					
 					session.setAttribute("jogador", jog);
 					jog.session = session;
-					session.write(createTextMessage(0,"Login Aceito "+usuario+" "+senha));
+					session.write(createTextMessage(0,"Usuário "+usuario+" cadastrado com senha "+senha));
 					sendLoginStatusMessage(session,1);
 					sendPersonagemMessage(session,10,jog.personagem);
 					for (Iterator iterator = DadosServer.listaDeJogadoresLogados.iterator(); iterator.hasNext();) {
@@ -159,6 +193,7 @@ public class MinaServerHandler extends IoHandlerAdapter {
 						sendPersonagemMessage(session,11,outrojogador.personagem);
 					}
 					DadosServer.listaDeJogadoresLogados.add(jog);
+					DadosServer.servercontroler.cadastraNovoJogador();
 				}
 			} catch (IOException e1) {
 				e1.printStackTrace();

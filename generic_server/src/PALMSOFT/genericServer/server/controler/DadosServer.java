@@ -41,9 +41,7 @@ public class DadosServer {
 				while((str = bfr.readLine())!=null){
 					System.out.println(""+regcount+"-> "+str);
 					String[] strs = str.split(";");
-					Jogador jog = new Jogador(strs[0],strs[1]);
-					jog.pontos = Integer.parseInt(strs[2]);
-					
+					Jogador jog = new Jogador(strs[0], strs[1], Integer.parseInt(strs[2]));
 					hashJogadores.put(jog.Nome, jog);
 					regcount++;
 				}

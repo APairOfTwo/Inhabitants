@@ -15,8 +15,7 @@ public class MainApplet extends JApplet {
 	public void init() {
 		super.init();
 		
-		String tudo = "";
-		System.out.println("ININICANDO.....");
+		System.out.println("INICIANDO.....");
 		
 		Constantes.connectionManager = new SocketConectionManager();
 		Constantes.connectionManager.connect();

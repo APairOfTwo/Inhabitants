@@ -14,7 +14,7 @@ import PALMSOFT.genericServer.server.protocol.NetMessage;
 public class Jogador {
 	public String Nome = "";
 	public String Senha = null;
-	public int pontos;
+	public int raca;
 	public IoSession session = null;
 	
 	public Personagem personagem = null;
@@ -22,10 +22,10 @@ public class Jogador {
 	public long timeping = 0;
 	public Projetil projetil = null;
 	
-	public Jogador(String nome,String senha) {
-		Nome = nome;
-		Senha = senha;
-		pontos = 0;
+	public Jogador(String nome, String senha, int raca) {
+		this.Nome = nome;
+		this.Senha = senha;
+		this.raca = raca;
 		
 		personagem = new Personagem(DadosServer.rnd.nextInt(),DadosServer.rnd.nextInt(100), DadosServer.rnd.nextInt(100));
 		projetil = new Projetil(-1, -1, 0, 0, this);
@@ -43,9 +43,7 @@ public class Jogador {
 		try {
 			dout.writeLong(time);		
 			session.write(new  NetMessage(1, bout.toByteArray()));
-			
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

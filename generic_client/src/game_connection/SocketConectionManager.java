@@ -470,6 +470,20 @@ public class SocketConectionManager implements Runnable{
 		NetMessage msg = new NetMessage(6, bout.toByteArray());
 		sendNetMessage(msg);
 	}
+	
+	public void sendMsgCadastra(String usuario, String senha, int raca) {
+		ByteArrayOutputStream bout = new ByteArrayOutputStream();
+		DataOutputStream dout = new DataOutputStream(bout);
+		try {
+			dout.writeUTF(usuario);
+			dout.writeUTF(senha);
+			dout.writeInt(raca);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		NetMessage msg = new NetMessage(4, bout.toByteArray());
+		sendNetMessage(msg);
+	}
 
 	public void sendMsgMovimentaPersonagem(float x,float y,float objX,float objY){
 		ByteArrayOutputStream bout = new ByteArrayOutputStream();

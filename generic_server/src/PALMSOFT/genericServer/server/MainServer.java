@@ -22,7 +22,7 @@ public class MainServer {
 		DadosServer.carregaDadosDisco();
 		
 		DadosServer.servercontroler = new ServerControler();
-		DadosServer.servercontroler.inicia();
+		//DadosServer.servercontroler.inicia();
 		
 		IoAcceptor acceptor = new NioSocketAcceptor();
 		LoggingFilter loggingFilter = new LoggingFilter();

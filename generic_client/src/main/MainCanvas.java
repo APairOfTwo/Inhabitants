@@ -84,8 +84,12 @@ public class MainCanvas extends Canvas implements Runnable {
 				}
 
 				if(key == KeyEvent.VK_F2){
+					String usuario = JOptionPane.showInputDialog(null, "Usuario : ", "Login", 1);
+					String senha = JOptionPane.showInputDialog(null, "Senha : ", "Login", 1);
+					int raca = JOptionPane.showConfirmDialog(null, "Seu personagem será humano?");
+					System.out.println(raca);
 					if(Constantes.connectionManager!=null&&Constantes.connectionManager.socket.isConnected()){
-						Constantes.connectionManager.sendMsgPedeArquivo("ImagenNet.jpg", rnd.nextInt());
+						Constantes.connectionManager.sendMsgCadastra(usuario, senha, raca);
 					}
 				}
 

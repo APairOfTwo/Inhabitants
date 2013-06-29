@@ -67,15 +67,14 @@ public class ServerControler implements Runnable{
 			
 			if((tempoatual-tempobackup)>60000){//3600000
 				tempobackup = tempoatual;
-				
 				File fileini = new File(DadosServer.pathdados+"dados.zip");
-				if(fileini.exists()){
-					Calendar calendar = Calendar.getInstance();
-					calendar.setTimeInMillis(System.currentTimeMillis());
-					File newfile = new File(DadosServer.pathdados+"backupDado"+formatter.format(calendar.getTime())+".zip");
-					fileini.renameTo(newfile);
-				}
-				fileini = new File(DadosServer.pathdados+"dados.zip");
+//				if(fileini.exists()){
+//					Calendar calendar = Calendar.getInstance();
+//					calendar.setTimeInMillis(System.currentTimeMillis());
+//					File newfile = new File(DadosServer.pathdados+"backupDado"+formatter.format(calendar.getTime())+".zip");
+//					fileini.renameTo(newfile);
+//				}
+//				fileini = new File(DadosServer.pathdados+"dados.zip");
 
 				try {
 					ZipOutputStream zout = new ZipOutputStream(new FileOutputStream(fileini));
@@ -86,7 +85,7 @@ public class ServerControler implements Runnable{
 					for (Iterator iterator = set.iterator(); iterator.hasNext();) {
 						String key = (String) iterator.next();
 						Jogador jog = DadosServer.hashJogadores.get(key);
-						outw.write(""+jog.Nome+";"+jog.Senha+";"+jog.pontos+";"+"\n");
+						outw.write(""+jog.Nome+";"+jog.Senha+";"+jog.raca+";"+"\n");
 					}
 					outw.close();
 				} catch (FileNotFoundException e) {
@@ -108,6 +107,28 @@ public class ServerControler implements Runnable{
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	public void cadastraNovoJogador() {
+		File fileini = new File(DadosServer.pathdados+"dados.zip");
+		try {
+			ZipOutputStream zout = new ZipOutputStream(new FileOutputStream(fileini));
+			zout.putNextEntry(new ZipEntry("dados.csv"));
+			OutputStreamWriter outw = new OutputStreamWriter(zout);
+
+			Set<String> set = DadosServer.hashJogadores.keySet();
+			for (Iterator iterator = set.iterator(); iterator.hasNext();) {
+				String key = (String) iterator.next();
+				Jogador jog = DadosServer.hashJogadores.get(key);
+				outw.write(""+jog.Nome+";"+jog.Senha+";"+jog.raca+";"+"\n");
+			}
+			outw.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 	}
 
 }
