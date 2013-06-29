@@ -12,7 +12,7 @@ public class Personagem extends Sprite {
 
 	public int ID = 0;
 
-	public int vel = 200;
+	public int vel = 50;
 
 	public boolean isAlive = true;
 	public int life = 100;
@@ -24,6 +24,7 @@ public class Personagem extends Sprite {
 
 	public int respawnCountTime;
 
+	BufferedImage mira;
 	public Color cor = Color.BLUE;
 
 	public BufferedImage img = null;
@@ -109,10 +110,10 @@ public class Personagem extends Sprite {
 	public void DesenhaSe(Graphics2D dbg,int mapx,int mapy) {
 		if(isAlive) {
 			dbg.setColor(cor);
-			dbg.fillRect((int)X-mapx-5, (int)Y-mapy-5, 10, 10);
-			dbg.drawLine((int)X-mapx, (int)Y-mapy, (int)(objetivoX-mapx), (int)(objetivoY-mapy));
+			dbg.fillRect((int)X-5, (int)Y-5, 10, 10);
+			dbg.drawLine((int)X, (int)Y, (int)(objetivoX), (int)(objetivoY));
 			dbg.setColor(Color.orange);
-			dbg.drawOval((int)X-tamanho,(int) Y-tamanho,(int) raio,(int) raio);
+			dbg.drawOval((int)(X-tamanho),(int) Y-tamanho,(int) raio,(int) raio);
 			dbg.setColor(Color.green);
 			dbg.fillRect((int)X-15, (int) Y-15, (int)life/3, 5);
 		}
