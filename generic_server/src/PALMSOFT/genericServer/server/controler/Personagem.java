@@ -15,6 +15,8 @@ public class Personagem extends Sprite {
 	
 	public int vel = 200;
 	float raio = 20;
+	public int tipo;
+
 	
 	public boolean isAlive = true;
 	
@@ -45,11 +47,20 @@ public class Personagem extends Sprite {
 		poschary = (idpersonagem/4)*192;
 	}
 	
+//	public Personagem(int id,float x,float y,int tipo) {
+//		// TODO Auto-generated constructor stub
+//		X = x;
+//		Y = y;
+//		ID = id;
+//
+//		this.tipo=tipo;
+//	}
 	public Personagem(int id,float x,float y) {
 		// TODO Auto-generated constructor stub
 		X = x;
 		Y = y;
 		ID = id;
+
 	}
 	
 	double theta = 0;

@@ -162,8 +162,10 @@ public class MainCanvas extends Canvas implements Runnable {
 
 			@Override
 			public void mousePressed(MouseEvent e) {
-				MouseX = (e.getX());
-				MouseY = (e.getY());
+				MouseX = (e.getX()+mapa.MapX)/16;
+				MouseY = (e.getY()+mapa.MapY)/16;
+				int mx = e.getX();
+				int my = e.getY();
 
 				if (e.getButton() == 1) {
 					if (Constantes.logado == true) {
@@ -186,7 +188,7 @@ public class MainCanvas extends Canvas implements Runnable {
 								Constantes.meuPersonagem.Y, MouseX, MouseY);
 						Constantes.meuPersonagem.atira(
 								Constantes.meuPersonagem.X,
-								Constantes.meuPersonagem.Y, MouseX, MouseY);
+								Constantes.meuPersonagem.Y, mx, my);
 					}
 				}
 				System.out.println(" mx " + MouseX + " my " + MouseY);
@@ -314,24 +316,24 @@ public class MainCanvas extends Canvas implements Runnable {
 				}
 			}
 		}
-		// if (LEFT) {
-		// posx -= 200 * diftime / 1000.0;
-		// }
-		// if (RIGHT) {
-		// posx += 200 * diftime / 1000.0;
-		// }
-		// if (UP) {
-		// posy -= 200 * diftime / 1000.0;
-		// }
-		// if (DOWN) {
-		// posy += 200 * diftime / 1000.0;
-		// }
+		 if (LEFT) {
+		 posx -= 200 * diftime / 1000.0;
+		 }
+		 if (RIGHT) {
+		 posx += 200 * diftime / 1000.0;
+		 }
+		 if (UP) {
+		 posy -= 200 * diftime / 1000.0;
+		 }
+		 if (DOWN) {
+		 posy += 200 * diftime / 1000.0;
+		 }
 
 		if (Constantes.meuPersonagem != null) {
 //			System.out.println("x " + (int) (Constantes.meuPersonagem.X)
 //					+ " y " + ((int) Constantes.meuPersonagem.Y));
-			mapa.Posiciona((int) (Constantes.meuPersonagem.X * 2),
-					(int) (Constantes.meuPersonagem.Y * 2));
+			mapa.Posiciona((int) (Constantes.meuPersonagem.X -PWIDTH/2),
+					(int) (Constantes.meuPersonagem.Y -PHEIGHT/2));
 		}
 
 		// mapa.Posiciona((int)posx,(int)posy);

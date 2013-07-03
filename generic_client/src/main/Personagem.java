@@ -12,13 +12,14 @@ public class Personagem extends Sprite {
 
 	public int ID = 0;
 
-	public int vel = 50;
+	public int vel = 100;
 
 	public boolean isAlive = true;
 	public int life = 100;
 	float raio = 20;
 	int tamanho = 10;
 	int tiroTimer = 0;
+	String nome;
 
 	// daqui pra baixo não importa no server
 
@@ -38,14 +39,15 @@ public class Personagem extends Sprite {
 	public int poscharx = 0;
 	public int poschary = 0;
 
-	public Personagem(float x,float y,BufferedImage img,int idpersonagem) {
+	public Personagem(float x,float y,BufferedImage img,int idpersonagem, String nome) {
 		X = x;
 		Y = y;
 
-		objetivoX = x;
-		objetivoY = y;
+		objetivoX =(x/16);
+		objetivoY =(y/16);
 
 		this.img = img;
+		this.nome=nome;
 
 		poscharx = (idpersonagem%4)*96;
 		poschary = (idpersonagem/4)*192;
@@ -71,8 +73,8 @@ public class Personagem extends Sprite {
 	}
 
 	public void deslocaSe(long diftime){
-		float dx = objetivoX - X;
-		float dy = objetivoY - Y;
+		float dx = objetivoX - (X/16);
+		float dy = objetivoY - (Y/16);
 
 		double ang = Math.atan2(dy, dx);
 
@@ -84,23 +86,25 @@ public class Personagem extends Sprite {
 		}
 	}
 
-	public void atira(float posX, float posY, int dirX, int dirY) {
+	public void atira(float posX, float posY, float dirX, float dirY) {
 		if (MainCanvas.instance.FIRE && tiroTimer > 100) {
 			tiroTimer = 0;
 			float vproj = 400;
+			
 
-			float px = posX + 5;
-			float py = posY + 5;
+			float px = (posX + 5)-MainCanvas.instance.mapa.MapX;
+			float py = (posY + 5)-MainCanvas.instance.mapa.MapY;
 
-			float dx = MainCanvas.instance.MouseX - px;
-			float dy = MainCanvas.instance.MouseY - py;
+			float dx = dirX - px;
+			float dy = dirY - py;
 
-			double ang = Math.atan2(dy, dx);
+			double ang2 = Math.atan2(dy, dx);
 
-			float vx = (float) (vproj * Math.cos(ang));
-			float vy = (float) (vproj * Math.sin(ang));
+			float vx = (float) (vproj * Math.cos(ang2));
+			float vy = (float) (vproj * Math.sin(ang2));
 
 			Projetil proj = new Projetil(posX + 5, posY + 5, vx, vy, this);
+			System.out.println("merlin"+(int)vx+ " "+(int)vy+" px "+px+" py "+py+" dx "+dx+" dy "+dy);
 			MainCanvas.instance.listaDeProjetil.add(proj);
 		}
 	}
@@ -110,12 +114,13 @@ public class Personagem extends Sprite {
 	public void DesenhaSe(Graphics2D dbg,int mapx,int mapy) {
 		if(isAlive) {
 			dbg.setColor(cor);
-			dbg.fillRect((int)X-5, (int)Y-5, 10, 10);
-			dbg.drawLine((int)X, (int)Y, (int)(objetivoX), (int)(objetivoY));
+			dbg.fillRect((int)(X-5)-mapx, (int)(Y-5)-mapy, 10, 10);
+			//dbg.drawString(nome,(int)(X-5)-mapx, (int)(Y-25)-mapy);
+		
 			dbg.setColor(Color.orange);
-			dbg.drawOval((int)(X-tamanho),(int) Y-tamanho,(int) raio,(int) raio);
+			dbg.drawOval((int)(X-tamanho)-mapx,(int) (Y-tamanho)-mapy,(int) raio,(int) raio);
 			dbg.setColor(Color.green);
-			dbg.fillRect((int)X-15, (int) Y-15, (int)life/3, 5);
+			dbg.fillRect((int)(X-15)-mapx, (int) (Y-15)-mapy, (int)life/3, 5);
 		}
 	}
 

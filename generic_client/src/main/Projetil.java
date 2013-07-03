@@ -38,22 +38,39 @@ public class Projetil extends Sprite {
 
 		X += velx * diftime / 1000.0f;
 		Y += vely * diftime / 1000.0f;
-		if (X < 0) {
+		
+		if(X < 0){
 			vivo = false;
-		} else if (Y < 0) {
-			vivo = false;
-		} else if (this.Y > 400) {
-			vivo = false;
-			double ang = Math.atan2(vely, velx);
-			ang += Math.PI;
-			for (int j = 0; j < 20; j++) {
-				double ang2 = ang - (Math.PI / 4)
-						+ ((Math.PI / 2) * Math.random());
-				float vel = (float) (150 + 100 * Math.random());
-				float vx = (float) (Math.cos(ang2) * vel);
-				float vy = (float) (Math.sin(ang2) * vel);
-			}
 		}
+		
+		if(Y < 0){
+			vivo = false;
+		}
+		
+		if(X>=(MainCanvas.mapa.Largura<<4)){
+			vivo = false;
+		}
+		
+		if(Y>=(MainCanvas.mapa.Altura<<4)){
+			vivo = false;
+		}	
+		
+//		if (X < 0) {
+//			vivo = false;
+//		} else if (Y < 0) {
+//			vivo = false;
+//		} else if (this.Y > 1000) {
+//			vivo = false;
+//			double ang = Math.atan2(vely, velx);
+//			ang += Math.PI;
+//			for (int j = 0; j < 20; j++) {
+//				double ang2 = ang - (Math.PI / 4)
+//						+ ((Math.PI / 2) * Math.random());
+//				float vel = (float) (150 + 100 * Math.random());
+//				float vx = (float) (Math.cos(ang2) * vel);
+//				float vy = (float) (Math.sin(ang2) * vel);
+//			}
+//		}
 
 		if(vivo) {
 			for (int i = 0; i < MainCanvas.instance.listaDePersonagens.size(); i++) {
@@ -74,7 +91,9 @@ public class Projetil extends Sprite {
 	public void DesenhaSe(Graphics2D dbg, int mapx, int mapy) {
 		if(vivo) {
 			dbg.setColor(Color.YELLOW);
-			dbg.fillOval((int) (X - 2), (int) (Y - 2), 4, 4);
+			dbg.fillOval((int) (X -mapx- 2), (int) (Y -mapy- 2), 4, 4);
+			dbg.setColor(Color.red);
+			dbg.fillOval((int) (X -mapx- 1), (int) (Y -mapy- 1), 2, 2);
 		}
 	}
 

@@ -27,6 +27,14 @@ public class Jogador {
 		this.Senha = senha;
 		this.raca = raca;
 		
+//		switch(raca){
+//		case 0:
+//		personagem = new Personagem(DadosServer.rnd.nextInt(),DadosServer.rnd.nextInt(100), DadosServer.rnd.nextInt(100),raca);
+//		break;
+//		case 1:
+//			personagem = new Personagem(DadosServer.rnd.nextInt(),DadosServer.rnd.nextInt(100), DadosServer.rnd.nextInt(100),raca);
+//			break;
+//		}
 		personagem = new Personagem(DadosServer.rnd.nextInt(),DadosServer.rnd.nextInt(100), DadosServer.rnd.nextInt(100));
 		projetil = new Projetil(-1, -1, 0, 0, this);
 	}
