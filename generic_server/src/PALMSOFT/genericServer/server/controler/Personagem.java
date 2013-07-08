@@ -83,7 +83,6 @@ public class Personagem extends Sprite {
 		if(isAlive) {
 			frametimer+=diftime;
 			frame = (frametimer/animspeed)%3;
-		
 			deslocaSe(diftime);
 		}
 	}
@@ -119,10 +118,10 @@ public class Personagem extends Sprite {
 		
 //		dbg.drawImage(img, (int)X-mapx, (int)Y-mapy,(int)X+32-mapx, (int)Y+48-mapy, frame*32+poscharx, anim*48+poschary,(frame*32)+32+poscharx, anim*48+48+poschary, null);
 		
-		if(isAlive) {
-			dbg.setColor(Color.BLUE);
-			dbg.fillRect((int)X-mapx-5, (int)Y-mapy-5, 10, 10);
-			dbg.drawLine((int)X-mapx, (int)Y-mapy, (int)(X-objetivoX), (int)(Y-objetivoY));
-		}	
+//		if(isAlive) {
+//			dbg.setColor(Color.BLUE);
+//			dbg.fillRect((int)X-mapx-5, (int)Y-mapy-5, 10, 10);
+//			dbg.drawLine((int)X-mapx, (int)Y-mapy, (int)(X-objetivoX), (int)(Y-objetivoY));
+//		}	
 	}
 }

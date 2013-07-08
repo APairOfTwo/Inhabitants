@@ -18,7 +18,7 @@ public class Personagem extends Sprite {
 
 	public boolean isAlive = true;
 	public int life = 100;
-	float raio = 20;
+	float raio = 23;
 	int tamanho = 10;
 	int tiroTimer = 0;
 	String nome;
@@ -126,16 +126,16 @@ public class Personagem extends Sprite {
 	@Override
 	public void DesenhaSe(Graphics2D dbg,int mapx,int mapy) {
 		if(isAlive) {
-			dbg.setColor(cor);
+			//dbg.setColor(cor);
 			//dbg.fillRect((int)(X-5)-mapx, (int)(Y-5)-mapy, 10, 10);
-			dbg.drawImage(sprite, (int)X-mapx, (int)Y-mapy, (int)(X + 47) - mapx, (int)(Y + 50) - mapy, 0, 0, 94, 100, null);
+			dbg.drawImage(sprite, (int)X-mapx-23, (int)Y-mapy-25, (int)(X+24)-mapx, (int)(Y+25)-mapy, 0, 0, 94, 100, null);
 			
 			//dbg.drawString(nome,(int)(X-5)-mapx, (int)(Y-25)-mapy);
 		
-			dbg.setColor(Color.orange);
-			dbg.drawOval((int)(X-tamanho)-mapx,(int) (Y-tamanho)-mapy,(int) raio,(int) raio);
+			//dbg.setColor(Color.orange);
+			//dbg.drawOval((int)(X-tamanho)-mapx,(int) (Y-tamanho)-mapy,(int) raio,(int) raio);
 			dbg.setColor(Color.green);
-			dbg.fillRect((int)(X-15)-mapx, (int) (Y-15)-mapy, (int)life/3, 5);
+			dbg.fillRect((int)(X-15)-mapx, (int) (Y-35)-mapy, (int)life/3, 5);
 		}
 	}
 
