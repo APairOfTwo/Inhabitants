@@ -1,5 +1,7 @@
 package main;
 
+import game_connection.Constantes;
+
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -29,6 +31,7 @@ public class Personagem extends Sprite {
 	public Color cor = Color.BLUE;
 
 	public BufferedImage img = null;
+	public BufferedImage sprite;
 
 	public int frame = 0;
 	public int frametimer = 0;
@@ -38,6 +41,7 @@ public class Personagem extends Sprite {
 
 	public int poscharx = 0;
 	public int poschary = 0;
+	public int raca;
 
 	public Personagem(float x,float y,BufferedImage img,int idpersonagem, String nome) {
 		X = x;
@@ -52,11 +56,13 @@ public class Personagem extends Sprite {
 		poscharx = (idpersonagem%4)*96;
 		poschary = (idpersonagem/4)*192;
 	}
-
-	public Personagem(int id,float x,float y) {
+	
+	public Personagem(int id, float x, float y) {
 		X = x;
 		Y = y;
 		ID = id;
+		//this.raca = raca;
+		sprite = raca == 0 ? Constantes.loadImageFromFile("human_spaceship.png") : Constantes.loadImageFromFile("alien_spaceship.png");
 	}
 
 	double theta = 0;
@@ -114,7 +120,9 @@ public class Personagem extends Sprite {
 	public void DesenhaSe(Graphics2D dbg,int mapx,int mapy) {
 		if(isAlive) {
 			dbg.setColor(cor);
-			dbg.fillRect((int)(X-5)-mapx, (int)(Y-5)-mapy, 10, 10);
+			//dbg.fillRect((int)(X-5)-mapx, (int)(Y-5)-mapy, 10, 10);
+			dbg.drawImage(sprite, (int)X-mapx, (int)Y-mapy, (int)(X + 47) - mapx, (int)(Y + 50) - mapy, 0, 0, 94, 100, null);
+			
 			//dbg.drawString(nome,(int)(X-5)-mapx, (int)(Y-25)-mapy);
 		
 			dbg.setColor(Color.orange);

@@ -326,8 +326,7 @@ public class MinaServerHandler extends IoHandlerAdapter {
 			dout.writeFloat(pers.Y);
 			dout.writeFloat(pers.objetivoX);
 			dout.writeFloat(pers.objetivoY);
-			//dout.writeFloat(pers.tipo);
-
+			dout.writeFloat(pers.tipo);
 
 			session.write(new  NetMessage(codMessage, bout.toByteArray()));
 		} catch (IOException e) {
