@@ -35,7 +35,7 @@ public class Jogador {
 //			personagem = new Personagem(DadosServer.rnd.nextInt(),DadosServer.rnd.nextInt(100), DadosServer.rnd.nextInt(100),raca);
 //			break;
 //		}
-		personagem = new Personagem(DadosServer.rnd.nextInt(),DadosServer.rnd.nextInt(100), DadosServer.rnd.nextInt(100));
+		personagem = new Personagem(DadosServer.rnd.nextInt(),DadosServer.rnd.nextInt(100), DadosServer.rnd.nextInt(100), raca);
 		projetil = new Projetil(-1, -1, 0, 0, this);
 	}
 	

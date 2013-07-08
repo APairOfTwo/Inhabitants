@@ -57,11 +57,11 @@ public class Personagem extends Sprite {
 		poschary = (idpersonagem/4)*192;
 	}
 	
-	public Personagem(int id, float x, float y) {
+	public Personagem(int id, float x, float y, int raca) {
 		X = x;
 		Y = y;
 		ID = id;
-		//this.raca = raca;
+		this.raca = raca;
 		sprite = raca == 0 ? Constantes.loadImageFromFile("human_spaceship.png") : Constantes.loadImageFromFile("alien_spaceship.png");
 	}
 

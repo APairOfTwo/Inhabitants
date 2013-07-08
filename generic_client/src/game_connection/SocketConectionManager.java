@@ -267,8 +267,9 @@ public class SocketConectionManager implements Runnable{
 					float pery = dbin.readFloat();
 					float objx = dbin.readFloat();
 					float objy = dbin.readFloat();
+					int raca = dbin.readInt();
 
-					Constantes.meuPersonagem = new Personagem(id, perx, pery);
+					Constantes.meuPersonagem = new Personagem(id, perx, pery, raca);
 					Constantes.meuPersonagem.objetivoX = objx;
 					Constantes.meuPersonagem.objetivoY = objy;
 					Constantes.meuPersonagem.cor = Color.blue;
@@ -292,8 +293,9 @@ public class SocketConectionManager implements Runnable{
 					float pery = dbin.readFloat();
 					float objx = dbin.readFloat();
 					float objy = dbin.readFloat();
+					int raca = dbin.readInt();
 
-					Personagem pers = new Personagem(id, perx, pery);
+					Personagem pers = new Personagem(id, perx, pery, raca);
 					pers.cor = Color.red;
 					pers.objetivoX = objx;
 					pers.objetivoY = objy;

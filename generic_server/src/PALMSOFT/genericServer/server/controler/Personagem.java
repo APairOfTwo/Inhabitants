@@ -15,8 +15,7 @@ public class Personagem extends Sprite {
 	
 	public int vel = 200;
 	float raio = 20;
-	public int tipo;
-
+	public int raca;
 	
 	public boolean isAlive = true;
 	
@@ -55,12 +54,11 @@ public class Personagem extends Sprite {
 //
 //		this.tipo=tipo;
 //	}
-	public Personagem(int id,float x,float y) {
-		// TODO Auto-generated constructor stub
+	public Personagem(int id,float x,float y, int raca) {
 		X = x;
 		Y = y;
 		ID = id;
-
+		this.raca = raca;
 	}
 	
 	double theta = 0;
