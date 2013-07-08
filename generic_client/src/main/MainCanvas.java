@@ -169,6 +169,8 @@ public class MainCanvas extends Canvas implements Runnable {
 				MouseY = (e.getY()+mapa.MapY)/16;
 				int mx = e.getX();
 				int my = e.getY();
+//				System.out.println("moux "+MouseX+" mouy "+MouseY);
+//				System.out.println("mx "+mx+" my "+my);
 
 				if (e.getButton() == 1) {
 					if (Constantes.logado == true) {

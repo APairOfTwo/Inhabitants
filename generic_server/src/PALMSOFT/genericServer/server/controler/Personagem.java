@@ -39,6 +39,7 @@ public class Personagem extends Sprite {
 		
 		objetivoX = x;
 		objetivoY = y;
+
 		
 		this.img = img;
 		
@@ -54,9 +55,23 @@ public class Personagem extends Sprite {
 //
 //		this.tipo=tipo;
 //	}
-	public Personagem(int id,float x,float y, int raca) {
+	public Personagem(int id,float x,float y,int raca) {
+		System.out.println(x+" "+y);
 		X = x;
 		Y = y;
+		
+		objetivoX = X;
+		objetivoY = Y;
+//		switch(raca){
+//		case 0: 
+//			objetivoX = X;
+//			objetivoY = Y;
+//			break;
+//		case 1:
+//		
+//			break;
+//		}
+		//System.out.println("sx "+X+" sy "+Y);
 		ID = id;
 		this.raca = raca;
 	}

@@ -44,8 +44,10 @@ public class Personagem extends Sprite {
 	public int raca;
 
 	public Personagem(float x,float y,BufferedImage img,int idpersonagem, String nome) {
+		
 		X = x;
 		Y = y;
+		
 
 		objetivoX =(x/16);
 		objetivoY =(y/16);
@@ -58,8 +60,10 @@ public class Personagem extends Sprite {
 	}
 	
 	public Personagem(int id, float x, float y, int raca) {
-		X = x;
-		Y = y;
+	
+			X = x;
+			Y = y;
+
 		ID = id;
 		this.raca = raca;
 		sprite = raca == 0 ? Constantes.loadImageFromFile("human_spaceship.png") : Constantes.loadImageFromFile("alien_spaceship.png");
@@ -81,6 +85,9 @@ public class Personagem extends Sprite {
 	public void deslocaSe(long diftime){
 		float dx = objetivoX - (X/16);
 		float dy = objetivoY - (Y/16);
+		//System.out.println("dx "+dx+" dy "+dy);
+		
+		//System.out.println("x "+X+" y "+Y);
 
 		double ang = Math.atan2(dy, dx);
 

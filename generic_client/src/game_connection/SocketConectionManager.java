@@ -268,8 +268,9 @@ public class SocketConectionManager implements Runnable{
 					float objx = dbin.readFloat();
 					float objy = dbin.readFloat();
 					int raca = dbin.readInt();
+					//System.out.println("ox "+objx+" oy "+objy);
 
-					Constantes.meuPersonagem = new Personagem(id, perx, pery, raca);
+					Constantes.meuPersonagem = new Personagem(id, perx*16, pery*16, raca);
 					Constantes.meuPersonagem.objetivoX = objx;
 					Constantes.meuPersonagem.objetivoY = objy;
 					Constantes.meuPersonagem.cor = Color.blue;
