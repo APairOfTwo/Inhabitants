@@ -20,9 +20,7 @@ public class MainServer {
 	
 	public static void main(String[] args) throws IOException {
 		DadosServer.carregaDadosDisco();
-		
 		DadosServer.servercontroler = new ServerControler();
-		//DadosServer.servercontroler.inicia();
 		
 		IoAcceptor acceptor = new NioSocketAcceptor();
 		LoggingFilter loggingFilter = new LoggingFilter();

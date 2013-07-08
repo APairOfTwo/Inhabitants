@@ -99,7 +99,10 @@ public class MainCanvas extends Canvas implements Runnable {
 							"Senha : ", "Login", 1);
 					int raca = JOptionPane.showConfirmDialog(null,
 							"Seu personagem será humano?");
-					System.out.println(raca);
+
+					if (raca > 1)
+						return;
+					
 					if (Constantes.connectionManager != null
 							&& Constantes.connectionManager.socket
 									.isConnected()) {
