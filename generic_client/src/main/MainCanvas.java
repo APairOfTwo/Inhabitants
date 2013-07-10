@@ -44,6 +44,7 @@ public class MainCanvas extends Canvas implements Runnable {
 	int fpscount;
 
 	int respawnTime = 2000;
+	public ArrayList<Tower> listaTorres;
 
 	public ArrayList<Personagem> listaDePersonagens = new ArrayList<Personagem>();
 	public ArrayList<Projetil> listaDeProjetil = new ArrayList<Projetil>();
@@ -102,7 +103,7 @@ public class MainCanvas extends Canvas implements Runnable {
 
 					if (raca > 1)
 						return;
-					
+
 					if (Constantes.connectionManager != null
 							&& Constantes.connectionManager.socket
 									.isConnected()) {
@@ -165,12 +166,12 @@ public class MainCanvas extends Canvas implements Runnable {
 
 			@Override
 			public void mousePressed(MouseEvent e) {
-				MouseX = (e.getX()+mapa.MapX)/16;
-				MouseY = (e.getY()+mapa.MapY)/16;
+				MouseX = (e.getX() + mapa.MapX) / 16;
+				MouseY = (e.getY() + mapa.MapY) / 16;
 				int mx = e.getX();
 				int my = e.getY();
-//				System.out.println("moux "+MouseX+" mouy "+MouseY);
-//				System.out.println("mx "+mx+" my "+my);
+				// System.out.println("moux "+MouseX+" mouy "+MouseY);
+				// System.out.println("mx "+mx+" my "+my);
 
 				if (e.getButton() == 1) {
 					if (Constantes.logado == true) {
@@ -214,6 +215,20 @@ public class MainCanvas extends Canvas implements Runnable {
 
 		MouseX = MouseY = 50;
 		mapa = new Mapa_Grid(100, 100, 50, 32);
+		listaTorres = new ArrayList<Tower>();
+
+		Tower t = new Tower(200, 500);
+		listaTorres.add(t);
+
+		t = new Tower(600, 300);
+		listaTorres.add(t);
+
+		t = new Tower(1200, 1300);
+		listaTorres.add(t);
+
+	    t = new Tower(800, 900);
+    	listaTorres.add(t);
+
 	}
 
 	public void addNotify() {
@@ -302,12 +317,18 @@ public class MainCanvas extends Canvas implements Runnable {
 
 		for (int i = 0; i < listaDePersonagens.size(); i++) {
 			listaDePersonagens.get(i).SimulaSe(diftime);
-//			System.out.println(""+i+" i " + (int) (listaDePersonagens.get(i).X)
-//					+ " y " + ((int) listaDePersonagens.get(i).Y));
+			// System.out.println(""+i+" i " + (int)
+			// (listaDePersonagens.get(i).X)
+			// + " y " + ((int) listaDePersonagens.get(i).Y));
 		}
 
 		for (int i = 0; i < listaDeProjetil.size(); i++) {
 			listaDeProjetil.get(i).SimulaSe(diftime);
+		}
+		if (listaTorres != null) {
+			for (int i = 0; i < listaTorres.size(); i++) {
+				listaTorres.get(i).SimulaSe(diftime);
+			}
 		}
 
 		if (Constantes.meuPersonagem != null) {
@@ -321,24 +342,24 @@ public class MainCanvas extends Canvas implements Runnable {
 				}
 			}
 		}
-		 if (LEFT) {
-		 posx -= 200 * diftime / 1000.0;
-		 }
-		 if (RIGHT) {
-		 posx += 200 * diftime / 1000.0;
-		 }
-		 if (UP) {
-		 posy -= 200 * diftime / 1000.0;
-		 }
-		 if (DOWN) {
-		 posy += 200 * diftime / 1000.0;
-		 }
+		if (LEFT) {
+			posx -= 200 * diftime / 1000.0;
+		}
+		if (RIGHT) {
+			posx += 200 * diftime / 1000.0;
+		}
+		if (UP) {
+			posy -= 200 * diftime / 1000.0;
+		}
+		if (DOWN) {
+			posy += 200 * diftime / 1000.0;
+		}
 
 		if (Constantes.meuPersonagem != null) {
-//			System.out.println("x " + (int) (Constantes.meuPersonagem.X)
-//					+ " y " + ((int) Constantes.meuPersonagem.Y));
-			mapa.Posiciona((int) (Constantes.meuPersonagem.X -PWIDTH/2),
-					(int) (Constantes.meuPersonagem.Y -PHEIGHT/2));
+			// System.out.println("x " + (int) (Constantes.meuPersonagem.X)
+			// + " y " + ((int) Constantes.meuPersonagem.Y));
+			mapa.Posiciona((int) (Constantes.meuPersonagem.X - PWIDTH / 2),
+					(int) (Constantes.meuPersonagem.Y - PHEIGHT / 2));
 		}
 
 		// mapa.Posiciona((int)posx,(int)posy);
@@ -348,18 +369,31 @@ public class MainCanvas extends Canvas implements Runnable {
 		dbg.setColor(Color.BLACK);
 		dbg.fillRect(0, 0, PWIDTH, PHEIGHT);
 
+		if (listaTorres != null) {
+			for (int i = 0; i < listaTorres.size(); i++) {
+				listaTorres.get(i).DesenhaSe(dbg, mapa.MapX, mapa.MapY);
+			}
+		}
+
 		// if (ultimaImagemBaixada != null) {
 		dbg.drawImage(fundo, 0 - mapa.MapX, 0 - mapa.MapY, mapa.Altura * 16,
 				mapa.Altura * 16, null);
-		//mapa.DesenhaSe(dbg);
+		// mapa.DesenhaSe(dbg);
 		// }
+		
+		if (listaTorres != null) {
+			for (int i = 0; i < listaTorres.size(); i++) {
+				listaTorres.get(i).DesenhaSe(dbg, mapa.MapX, mapa.MapY);
+			}
+		}
 
 		for (int i = 0; i < listaDePersonagens.size(); i++) {
-//			System.out.println("mapx " + (int) (mapa.MapX)
-//					+ " y " + ((int) mapa.MapY));
-				listaDePersonagens.get(i).DesenhaSe(dbg, mapa.MapX, mapa.MapY);
-			
+			// System.out.println("mapx " + (int) (mapa.MapX)
+			// + " y " + ((int) mapa.MapY));
+			listaDePersonagens.get(i).DesenhaSe(dbg, mapa.MapX, mapa.MapY);
+
 		}
+
 
 		for (int i = 0; i < listaDeProjetil.size(); i++) {
 			listaDeProjetil.get(i).DesenhaSe(dbg, mapa.MapX, mapa.MapY);

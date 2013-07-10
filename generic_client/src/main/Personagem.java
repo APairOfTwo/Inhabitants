@@ -132,8 +132,8 @@ public class Personagem extends Sprite {
 			
 			//dbg.drawString(nome,(int)(X-5)-mapx, (int)(Y-25)-mapy);
 		
-			//dbg.setColor(Color.orange);
-			//dbg.drawOval((int)(X-tamanho)-mapx,(int) (Y-tamanho)-mapy,(int) raio,(int) raio);
+			dbg.setColor(Color.orange);
+			dbg.drawOval((int)(X-tamanho)-mapx,(int) (Y-tamanho)-mapy,(int) raio,(int) raio);
 			dbg.setColor(Color.green);
 			dbg.fillRect((int)(X-15)-mapx, (int) (Y-35)-mapy, (int)life/3, 5);
 		}
