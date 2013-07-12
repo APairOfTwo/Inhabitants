@@ -19,6 +19,7 @@ import java.util.zip.ZipInputStream;
 
 import javax.imageio.ImageIO;
 
+import main.Item;
 import main.MainCanvas;
 import main.Personagem;
 import main.Projetil;
@@ -371,9 +372,10 @@ public class SocketConectionManager implements Runnable{
 					float px = x + 5;
 					float py = y + 5;
 
-					float dx =objx- px;
-					float dy = objy - py;
-
+					float dx = (objx*16)- px;
+					float dy = (objy*16) - py;
+					
+	
 					float vproj = 400;
 					double ang = Math.atan2(dy, dx);
 					float vx = (float) (vproj * Math.cos(ang));
@@ -409,6 +411,11 @@ public class SocketConectionManager implements Runnable{
 					int life = dbin.readInt();
 					float x = dbin.readFloat();
 					float y = dbin.readFloat();
+					
+					float xItem = dbin.readInt();
+					float yItem = dbin.readInt();
+					
+					Item item= new Item(xItem, yItem);
 
 					for(int i = 0; i < MainCanvas.instance.listaDePersonagens.size();i++){
 						Personagem pers = MainCanvas.instance.listaDePersonagens.get(i);

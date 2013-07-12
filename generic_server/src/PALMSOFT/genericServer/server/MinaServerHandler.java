@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.Random;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -272,15 +273,20 @@ public class MinaServerHandler extends IoHandlerAdapter {
 			if(jogador!=null){
 				bin = new ByteArrayInputStream(msg.getData());
 				dbin = new DataInputStream(bin);
+				Random rnd = new Random();
 
 				try {
 					int life = dbin.readInt();
 					float x = dbin.readFloat();
 					float y = dbin.readFloat();
+					
+					float xItem = rnd.nextInt(650)+50;
+					float yItem = rnd.nextInt(400)+50;
 
 					for (Iterator iterator = DadosServer.listaDeJogadoresLogados.iterator(); iterator.hasNext();) {
 						Jogador outrojogador = (Jogador) iterator.next();
 						sendMsgRespawnou(outrojogador.session, jogador.personagem.ID, life, x, y);
+						sendMsgItem(outrojogador.session, xItem, yItem);
 					}
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -386,6 +392,19 @@ public class MinaServerHandler extends IoHandlerAdapter {
 		try {
 			dout.writeInt(ID);
 			dout.writeInt(life);
+			dout.writeFloat(x);
+			dout.writeFloat(y);
+			session.write(new NetMessage(18, bout.toByteArray()));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	public void sendMsgItem(IoSession session, float x, float y){
+		ByteArrayOutputStream bout = new ByteArrayOutputStream();
+		DataOutputStream dout = new DataOutputStream(bout);
+
+		try {
+
 			dout.writeFloat(x);
 			dout.writeFloat(y);
 			session.write(new NetMessage(18, bout.toByteArray()));

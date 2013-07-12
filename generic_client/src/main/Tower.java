@@ -70,12 +70,12 @@ public class Tower extends Sprite {
 		// TODO Auto-generated method stub
 		dbg.drawImage(sprite, (int) X - mapx, (int) Y - mapy, null);
 
-		if (visaoTorre) {
-			dbg.setColor(Color.red);
-		} else
-			dbg.setColor(Color.yellow);
-
-		dbg.drawOval((int) ((X)-tamanho) - mapx, (int) (Y-tamanho)- mapy, raio*2, raio*2);
+//		if (visaoTorre) {
+//			dbg.setColor(Color.red);
+//		} else
+//			dbg.setColor(Color.yellow);
+//
+//		dbg.drawOval((int) ((X)-tamanho) - mapx, (int) (Y-tamanho)- mapy, raio*2, raio*2);
 	}
 
 	public boolean colisaoCircular(Personagem p) {

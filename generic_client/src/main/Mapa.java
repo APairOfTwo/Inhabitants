@@ -9,8 +9,8 @@ public  class Mapa {
 	protected int Largura = 100;
 	protected int NumeroTilesX = 0;
 	protected int NumeroTilesY = 0;
-	protected int MapX = 0;
-	protected int MapY = 0;
+	public int MapX = 0;
+	public int MapY = 0;
 	protected int TilePLinhaTileset = 0;
 
 	public void CarregaTiles() {
