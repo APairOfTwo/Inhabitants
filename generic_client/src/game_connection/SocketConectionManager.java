@@ -412,10 +412,12 @@ public class SocketConectionManager implements Runnable{
 					float x = dbin.readFloat();
 					float y = dbin.readFloat();
 					
-					float xItem = dbin.readInt();
-					float yItem = dbin.readInt();
+					float xItem = dbin.readFloat();
+					float yItem = dbin.readFloat();
+					System.out.println(" pos item  c "+xItem+" "+yItem);
 					
-					Item item= new Item(xItem, yItem);
+					Item item= new Item(xItem*16, yItem*16);
+					MainCanvas.instance.listaItem.add(item);
 
 					for(int i = 0; i < MainCanvas.instance.listaDePersonagens.size();i++){
 						Personagem pers = MainCanvas.instance.listaDePersonagens.get(i);

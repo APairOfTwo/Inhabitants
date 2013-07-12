@@ -6,7 +6,6 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
-
 public class Personagem extends Sprite {
 
 	public float objetivoX = 0;
@@ -43,59 +42,70 @@ public class Personagem extends Sprite {
 	public int poschary = 0;
 	public int raca;
 
-	public Personagem(float x,float y,BufferedImage img,int idpersonagem, String nome) {
-		
+	public Personagem(float x, float y, BufferedImage img, int idpersonagem,
+			String nome) {
+
 		X = x;
 		Y = y;
-		
 
-		objetivoX =(x/16);
-		objetivoY =(y/16);
+		objetivoX = (x / 16);
+		objetivoY = (y / 16);
 
 		this.img = img;
-		this.nome=nome;
+		this.nome = nome;
 
-		poscharx = (idpersonagem%4)*96;
-		poschary = (idpersonagem/4)*192;
+		poscharx = (idpersonagem % 4) * 96;
+		poschary = (idpersonagem / 4) * 192;
 	}
-	
+
 	public Personagem(int id, float x, float y, int raca) {
-	
-			X = x;
-			Y = y;
+
+		X = x;
+		Y = y;
 
 		ID = id;
 		this.raca = raca;
-		sprite = raca == 0 ? Constantes.loadImageFromFile("human_spaceship.png") : Constantes.loadImageFromFile("alien_spaceship.png");
+		sprite = raca == 0 ? Constantes
+				.loadImageFromFile("human_spaceship.png") : Constantes
+				.loadImageFromFile("alien_spaceship.png");
 	}
 
 	double theta = 0;
 
 	@Override
 	public void SimulaSe(long diftime) {
-		if(isAlive) {
-			frametimer+=diftime;
-			frame = (frametimer/animspeed)%3;
+		if (isAlive) {
+			frametimer += diftime;
+			frame = (frametimer / animspeed) % 3;
 			tiroTimer += diftime;
 
+			for (int i = 0; i < MainCanvas.instance.listaItem.size(); i++) {
+				Item it = MainCanvas.instance.listaItem.get(i);
+				if (colisaoCircular(it)) {
+					if (it.vivo) {
+						this.life = 100;
+						it.vivo = false;
+					}
+				}
+			}
 			deslocaSe(diftime);
 		}
 	}
 
-	public void deslocaSe(long diftime){
-		float dx = objetivoX - (X/16);
-		float dy = objetivoY - (Y/16);
-		//System.out.println("dx "+dx+" dy "+dy);
-		
-		//System.out.println("x "+X+" y "+Y);
+	public void deslocaSe(long diftime) {
+		float dx = objetivoX - (X / 16);
+		float dy = objetivoY - (Y / 16);
+		// System.out.println("dx "+dx+" dy "+dy);
+
+		// System.out.println("x "+X+" y "+Y);
 
 		double ang = Math.atan2(dy, dx);
 
-		double dist2 = dx*dx+dy*dy;
+		double dist2 = dx * dx + dy * dy;
 
-		if(dist2>9){
-			X = (float)(X + (vel*Math.cos(ang))*diftime/1000.0f);
-			Y = (float)(Y + (vel*Math.sin(ang))*diftime/1000.0f);
+		if (dist2 > 9) {
+			X = (float) (X + (vel * Math.cos(ang)) * diftime / 1000.0f);
+			Y = (float) (Y + (vel * Math.sin(ang)) * diftime / 1000.0f);
 		}
 	}
 
@@ -103,10 +113,9 @@ public class Personagem extends Sprite {
 		if (MainCanvas.instance.FIRE && tiroTimer > 100) {
 			tiroTimer = 0;
 			float vproj = 400;
-			
 
-			float px = (posX + 5)-MainCanvas.instance.mapa.MapX;
-			float py = (posY + 5)-MainCanvas.instance.mapa.MapY;
+			float px = (posX + 5) - MainCanvas.instance.mapa.MapX;
+			float py = (posY + 5) - MainCanvas.instance.mapa.MapY;
 
 			float dx = dirX - px;
 			float dy = dirY - py;
@@ -117,32 +126,47 @@ public class Personagem extends Sprite {
 			float vy = (float) (vproj * Math.sin(ang2));
 
 			Projetil proj = new Projetil(posX + 5, posY + 5, vx, vy, this);
-			System.out.println("merlin"+(int)vx+ " "+(int)vy+" px "+px+" py "+py+" dx "+dx+" dy "+dy);
+			System.out.println("merlin" + (int) vx + " " + (int) vy + " px "
+					+ px + " py " + py + " dx " + dx + " dy " + dy);
 			MainCanvas.instance.listaDeProjetil.add(proj);
 		}
 	}
 
-
 	@Override
-	public void DesenhaSe(Graphics2D dbg,int mapx,int mapy) {
-		if(isAlive) {
-			//dbg.setColor(cor);
-			//dbg.fillRect((int)(X-5)-mapx, (int)(Y-5)-mapy, 10, 10);
-			dbg.drawImage(sprite, (int)X-mapx-23, (int)Y-mapy-25, (int)(X+24)-mapx, (int)(Y+25)-mapy, 0, 0, 94, 100, null);
-			
-			//dbg.drawString(nome,(int)(X-5)-mapx, (int)(Y-25)-mapy);
-		
+	public void DesenhaSe(Graphics2D dbg, int mapx, int mapy) {
+		if (isAlive) {
+			// dbg.setColor(cor);
+			// dbg.fillRect((int)(X-5)-mapx, (int)(Y-5)-mapy, 10, 10);
+			dbg.drawImage(sprite, (int) X - mapx - 23, (int) Y - mapy - 25,
+					(int) (X + 24) - mapx, (int) (Y + 25) - mapy, 0, 0, 94,
+					100, null);
+
+			// dbg.drawString(nome,(int)(X-5)-mapx, (int)(Y-25)-mapy);
+
 			dbg.setColor(Color.orange);
-			dbg.drawOval((int)(X-tamanho)-mapx,(int) (Y-tamanho)-mapy,(int) raio,(int) raio);
+//			dbg.drawOval((int) (X - tamanho) - mapx,
+//					(int) (Y - tamanho) - mapy, (int) raio, (int) raio);
 			dbg.setColor(Color.green);
-			dbg.fillRect((int)(X-15)-mapx, (int) (Y-35)-mapy, (int)life/3, 5);
+			dbg.fillRect((int) (X - 15) - mapx, (int) (Y - 35) - mapy,
+					(int) life / 3, 5);
 		}
 	}
 
 	public boolean colisaoCircular(Personagem p) {
-		float dx = (p.X -tamanho) - (X -tamanho);
-		float dy = (p.Y -tamanho) - (Y -tamanho);
+		float dx = (p.X - tamanho) - (X - tamanho);
+		float dy = (p.Y - tamanho) - (Y - tamanho);
 		float r2 = p.raio + raio;
+		r2 = r2 * r2;
+		if (r2 > ((dx * dx) + (dy * dy))) {
+			return true;
+		}
+		return false;
+	}
+
+	public boolean colisaoCircular(Item i) {
+		float dx = (i.X - i.tamanho) - (X - tamanho);
+		float dy = (i.Y - i.tamanho) - (Y - tamanho);
+		float r2 = i.raio + raio;
 		r2 = r2 * r2;
 		if (r2 > ((dx * dx) + (dy * dy))) {
 			return true;

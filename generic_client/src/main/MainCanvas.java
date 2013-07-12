@@ -59,6 +59,7 @@ public class MainCanvas extends Canvas implements Runnable {
 	double posx, posy;
 
 	public static Mapa_Grid mapa;
+	public ArrayList<Item> listaItem = new ArrayList<Item>();
 
 	public BufferedImage ultimaImagemBaixada = null;
 	public String ultimaMSGServer = "";
@@ -330,6 +331,12 @@ public class MainCanvas extends Canvas implements Runnable {
 				listaTorres.get(i).SimulaSe(diftime);
 			}
 		}
+		
+		if (listaItem != null) {
+			for (int i = 0; i < listaItem.size(); i++) {
+				listaItem.get(i).SimulaSe(diftime);
+			}
+		}
 
 		if (Constantes.meuPersonagem != null) {
 			if (!Constantes.meuPersonagem.isAlive) {
@@ -369,11 +376,6 @@ public class MainCanvas extends Canvas implements Runnable {
 		dbg.setColor(Color.BLACK);
 		dbg.fillRect(0, 0, PWIDTH, PHEIGHT);
 
-		if (listaTorres != null) {
-			for (int i = 0; i < listaTorres.size(); i++) {
-				listaTorres.get(i).DesenhaSe(dbg, mapa.MapX, mapa.MapY);
-			}
-		}
 
 		// if (ultimaImagemBaixada != null) {
 		dbg.drawImage(fundo, 0 - mapa.MapX, 0 - mapa.MapY, mapa.Altura * 16,
@@ -384,6 +386,11 @@ public class MainCanvas extends Canvas implements Runnable {
 		if (listaTorres != null) {
 			for (int i = 0; i < listaTorres.size(); i++) {
 				listaTorres.get(i).DesenhaSe(dbg, mapa.MapX, mapa.MapY);
+			}
+		}
+		if (listaItem != null) {
+			for (int i = 0; i < listaItem.size(); i++) {
+				listaItem.get(i).DesenhaSe(dbg, mapa.MapX, mapa.MapY);
 			}
 		}
 

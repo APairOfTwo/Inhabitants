@@ -8,6 +8,8 @@ import java.awt.image.BufferedImage;
 public class Item extends Sprite{
 	BufferedImage life = null;
 	public boolean vivo;
+	int raio = 10;
+	int tamanho = 5;
 
 	public Item(float x, float y) {
 		
@@ -30,7 +32,7 @@ public class Item extends Sprite{
 	public void DesenhaSe(Graphics2D dbg, int mapx, int mapy) {
 		// TODO Auto-generated method stub
 		if(vivo){
-			dbg.drawImage(life,  (int) X - mapx, (int) Y - mapy, (int)  30 - mapx,  30 - mapx, null);}
+			dbg.drawImage(life,  (int) X - mapx, (int) Y - mapy, (int)  30 ,  30, null);}
 	}
 
 	public boolean getVivo() {

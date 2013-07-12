@@ -280,13 +280,15 @@ public class MinaServerHandler extends IoHandlerAdapter {
 					float x = dbin.readFloat();
 					float y = dbin.readFloat();
 					
-					float xItem = rnd.nextInt(650)+50;
-					float yItem = rnd.nextInt(400)+50;
+					float xItem = rnd.nextInt(80)+2;
+					float yItem = rnd.nextInt(40)+2;
+					System.out.println(" pos item "+xItem+" "+yItem);
 
 					for (Iterator iterator = DadosServer.listaDeJogadoresLogados.iterator(); iterator.hasNext();) {
 						Jogador outrojogador = (Jogador) iterator.next();
-						sendMsgRespawnou(outrojogador.session, jogador.personagem.ID, life, x, y);
-						sendMsgItem(outrojogador.session, xItem, yItem);
+						sendMsgRespawnou(outrojogador.session, jogador.personagem.ID, life, x, y,xItem,yItem);
+						//sendMsgItem(outrojogador.session, xItem, yItem);
+						
 					}
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -385,7 +387,7 @@ public class MinaServerHandler extends IoHandlerAdapter {
 		}
 	}
 
-	public void sendMsgRespawnou(IoSession session, int ID, int life, float x, float y){
+	public void sendMsgRespawnou(IoSession session, int ID, int life, float x, float y,float xx,float yy){
 		ByteArrayOutputStream bout = new ByteArrayOutputStream();
 		DataOutputStream dout = new DataOutputStream(bout);
 
@@ -394,6 +396,8 @@ public class MinaServerHandler extends IoHandlerAdapter {
 			dout.writeInt(life);
 			dout.writeFloat(x);
 			dout.writeFloat(y);
+			dout.writeFloat(xx);
+			dout.writeFloat(yy);
 			session.write(new NetMessage(18, bout.toByteArray()));
 		} catch (IOException e) {
 			e.printStackTrace();
